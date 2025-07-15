@@ -1,0 +1,20 @@
+services:
+  dev-ubuntu:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: ${USER_NAME}
+        USER_UID: ${HOST_UID}
+        USER_GID: ${HOST_GID}
+    container_name: x11-forwarding-playwright-example
+    user: "${HOST_UID}:${HOST_GID}"
+    privileged: true
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ./app:/workspace:cached
+      - ~/.Xauthority:/home/developer/.Xauthority
+    init: true
+    command: sleep infinity
